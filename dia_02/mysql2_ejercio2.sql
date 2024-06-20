@@ -30,10 +30,14 @@ select apellido1 as Primer_Apellido
 from empleado;
 
 -- 2. Lista el primer apellido de los empleados eliminando los apellidos que estén repetidos.
-
+select distinct apellido1 as Primer_Apellido
+from empleado;
 
 -- 3. Lista todas las columnas de la tabla empleado.
-
+select *
+from empleado;
+select *
+from information_schema.columns empleado;
 
 -- 4. Lista el nombre y los apellidos de todos los empleados.
 
