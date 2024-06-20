@@ -274,6 +274,63 @@ select nombre as Departamento
 from departamento
 where presuesto_actual(presupuesto, gastos) not BETWEEN 100000 AND 200000;
 
+-- 27. Devuelve una lista con el nombre de los departamentos, gastos y presupuesto, de aquellos departamentos donde los gastos
+-- sean mayores que el presupuesto del que disponen.
+select nombre as Departamento, gastos as Gastos, presuesto_actual(presupuesto, gastos) as Presupuesto_Actual
+from departamento
+where presuesto_actual(presupuesto, gastos)<gastos;
+
+-- 28. Devuelve una lista con el nombre de los departamentos, gastos y presupuesto, de aquellos departamentos donde los gastos
+-- sean menores que el presupuesto del que disponen.
+select nombre as Departamento, gastos as Gastos, presuesto_actual(presupuesto, gastos) as Presupuesto_Actual
+from departamento
+where presuesto_actual(presupuesto, gastos)>gastos;
+
+-- 29. Devuelve una lista con el nombre de los departamentos, gastos y presupuesto, de aquellos departamentos donde los gastos
+-- sean iguales al presupuesto del que disponen.
+select nombre as Departamento, gastos as Gastos, presuesto_actual(presupuesto, gastos) as Presupuesto_Actual
+from departamento
+where presuesto_actual(presupuesto, gastos)=gastos;
+
+-- 30. Lista todos los datos de los empleados cuyo segundo apellido sea NULL.
+select *
+from empleado
+where apellido2 is null;
+
+-- 31. Lista todos los datos de los empleados cuyo segundo apellido no sea NULL.
+select *
+from empleado
+where apellido2 is not null;
+
+-- 32. Lista todos los datos de los empleados cuyo segundo apellido sea López.
+select *
+from empleado
+where apellido2='López';
+
+-- 33. Lista todos los datos de los empleados cuyo segundo apellido sea Díaz o Moreno. Sin utilizar el operador IN.
+select *
+from empleado
+where apellido2='Díaz' or apellido2='Moreno';
+
+-- 34. Lista todos los datos de los empleados cuyo segundo apellido sea Díaz o Moreno. Utilizando el operador IN.
+select *
+from empleado
+where apellido2 in ('Díaz','Moreno');
+
+-- 35. Lista los nombres, apellidos y nif de los empleados que trabajan en el departamento 3.
+select nombre, apellido1, apellido2, nif
+from empleado
+where id_departamento = 3;
+
+-- 36. Lista los nombres, apellidos y nif de los empleados que trabajan en los departamentos 2, 4 o 5.
+select nombre, apellido1, apellido2, nif
+from empleado
+where id_departamento = 2 or 4 or 5;
+
+select nombre, apellido1, apellido2, nif
+from empleado
+where id_departamento in (2,4,5);
+
 -- Insertar información departamento
 INSERT INTO departamento VALUES(1, 'Desarrollo', 120000, 6000);
 INSERT INTO departamento VALUES(2, 'Sistemas', 150000, 21000);
