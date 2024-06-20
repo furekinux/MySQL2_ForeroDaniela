@@ -169,16 +169,110 @@ order by id;
 -- que restar al valor del presupuesto inicial (columna presupuesto) los gastos que se han generado (columna gastos). Tenga
 -- en cuenta que en algunos casos pueden existir valores negativos. Utilice un alias apropiado para la nueva columna columna
 -- que está calculando.
+delimiter //
+create function presuesto_actual(presupuesto DOUBLE, gastos DOUBLE)
+returns DOUBLE deterministic
+begin
+	return presupuesto-gastos;
+end//
+delimiter ;
 
+select nombre as Departamento, presuesto_actual(presupuesto, gastos) as Presupuesto_Actual
+from departamento
+order by presupuesto asc;
 
 -- 12. Lista el nombre de los departamentos y el valor del presupuesto actual ordenado de forma ascendente.
-
+select nombre as Departamento, presuesto_actual(presupuesto, gastos) as Presupuesto_Actual
+from departamento
+order by Presupuesto_Actual asc;
 
 -- 13. Lista el nombre de todos los departamentos ordenados de forma ascendente.
-
+select nombre
+from departamento
+order by nombre asc;
 
 -- 14. Lista el nombre de todos los departamentos ordenados de forma descendente.
+select nombre
+from departamento
+order by nombre desc;
 
+-- 15. Lista los apellidos y el nombre de todos los empleados, ordenados de forma alfabética tendiendo en cuenta en primer lugar sus apellidos y luego su nombre.
+delimiter //
+create function Apellidos_Nombre(nombre varchar(100),apellido1 varchar(100), apellido2 varchar(100))
+returns varchar(255) deterministic
+begin
+	if apellido2 is null then
+    	return CONCAT(apellido1," ",nombre);
+	else
+		return CONCAT(apellido2," ",apellido1," ",nombre);
+	end if;
+end//
+delimiter ;
+
+select Apellidos_Nombre(nombre,apellido1,apellido2) as Nombre_Completo
+from empleado
+order by Nombre_Completo asc;
+
+-- 16. Devuelve una lista con el nombre y el presupuesto, de los 3 departamentos que tienen mayor presupuesto.
+select nombre as Departamento, presuesto_actual(presupuesto, gastos) as Presupuesto_Actual
+from departamento
+order by Presupuesto_Actual desc
+limit 3;
+
+-- 17. Devuelve una lista con el nombre y el presupuesto, de los 3 departamentos que tienen menor presupuesto.
+select nombre as Departamento, presuesto_actual(presupuesto, gastos) as Presupuesto_Actual
+from departamento
+order by Presupuesto_Actual asc
+limit 3;
+
+-- 18. Devuelve una lista con el nombre y el gasto, de los 2 departamentos que tienen mayor gasto.
+select nombre as Departamento, gastos as Gastos
+from departamento
+order by Gastos desc
+limit 3;
+
+-- 19. Devuelve una lista con el nombre y el gasto, de los 2 departamentos que tienen menor gasto.
+select nombre as Departamento, gastos as Gastos
+from departamento
+order by Gastos asc
+limit 3;
+
+-- 20. Devuelve una lista con 5 filas a partir de la tercera fila de la tabla empleado. La tercera fila se debe incluir en la
+-- respuesta. La respuesta debe incluir todas las columnas de la tabla empleado.
+
+-- 21. Devuelve una lista con el nombre de los departamentos y el presupuesto, de aquellos que tienen un presupuesto mayor o igual a 150000 euros.
+select nombre as Departamento, presuesto_actual(presupuesto, gastos) as Presupuesto_Actual
+from departamento
+where presuesto_actual(presupuesto, gastos) >= 150000;
+
+-- 22. Devuelve una lista con el nombre de los departamentos y el gasto, de aquellos que tienen menos de 5000 euros de gastos.
+select nombre as Departamento, gastos as Gastos
+from departamento
+where gastos < 150000;
+
+-- 23. Devuelve una lista con el nombre de los departamentos y el presupuesto, de aquellos que tienen un presupuesto entre
+-- 100000 y 200000 euros. Sin utilizar el operador BETWEEN.
+select nombre as Departamento, presuesto_actual(presupuesto, gastos) as Presupuesto_Actual
+from departamento
+where presuesto_actual(presupuesto, gastos) < 200000 and presuesto_actual(presupuesto, gastos) > 100000;
+
+-- 24. Devuelve una lista con el nombre de los departamentos que no tienen un presupuesto entre 100000 y 200000 euros. Sin
+-- utilizar el operador BETWEEN.
+select nombre as Departamento
+from departamento
+where presuesto_actual(presupuesto, gastos) > 200000 or presuesto_actual(presupuesto, gastos) < 100000;
+
+-- 25. Devuelve una lista con el nombre de los departamentos que tienen un presupuesto entre 100000 y 200000 euros. Utilizando
+-- el operador BETWEEN.
+select nombre as Departamento
+from departamento
+where presuesto_actual(presupuesto, gastos) BETWEEN 100000 AND 200000;
+
+-- 26. Devuelve una lista con el nombre de los departamentos que no tienen un presupuesto entre 100000 y 200000 euros. Utilizando
+-- el operador BETWEEN.
+select nombre as Departamento
+from departamento
+where presuesto_actual(presupuesto, gastos) not BETWEEN 100000 AND 200000;
 
 -- Insertar información departamento
 INSERT INTO departamento VALUES(1, 'Desarrollo', 120000, 6000);
