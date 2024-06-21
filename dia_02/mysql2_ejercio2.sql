@@ -549,8 +549,27 @@ call E_Info_Dep_Busc3(2,4,5);
 
 -- ############ CONSULTAS MULTITABLA ############
 -- 1. Devuelve un listado con los empleados y los datos de los departamentos donde trabaja cada uno.
+delimiter //
+create procedure E_and_D()
+begin
+	select e.* , d.*
+	from empleado e
+	inner join departamento d on e.id_departamento = d.id;
+end //
+delimiter ;
+call E_and_D();
 
 -- 2. Devuelve un listado con los empleados y los datos de los departamentos donde trabaja cada uno. Ordena el resultado, en primer lugar por el nombre del departamento (en orden alfabético) y en segundo lugar por los apellidos y el nombre de los empleados.
+delimiter //
+create procedure E_ApeNom_and_D_Nom()
+begin
+    select d.nombre as Departamento, Apellidos_Nombre(e.nombre,e.apellido1,e.apellido2) as Empleado
+	from empleado e
+	inner join departamento d on e.id_departamento = d.id
+    order by d.nombre;
+end //
+delimiter ;
+call E_ApeNom_and_D_Nom();
 
 -- 3. Devuelve un listado con el identificador y el nombre del departamento, solamente de aquellos departamentos que tienen empleados.
 
