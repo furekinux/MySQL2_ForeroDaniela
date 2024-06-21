@@ -26,34 +26,77 @@ FOREIGN KEY (id_departamento) REFERENCES departamento(id)
 );
 
 -- 1. Lista el primer apellido de todos los empleados.
-select apellido1 as Primer_Apellido
-from empleado;
+delimiter //
+create procedure Primer_Apellido()
+begin
+	select apellido1 as Primer_Apellido
+	from empleado;
+end //
+delimiter ;
+
+call Primer_Apellido();
 
 -- 2. Lista el primer apellido de los empleados eliminando los apellidos que estén repetidos.
-select distinct apellido1 as Primer_Apellido
-from empleado;
+delimiter //
+create procedure Primer_Apellido_Dist()
+begin
+	select distinct apellido1 as Primer_Apellido
+	from empleado;
+end //
+delimiter ;
+call Primer_Apellido_Dist();
 
 -- 3. Lista todas las columnas de la tabla empleado.
-select *
-from empleado;
+delimiter //
+create procedure E_Columns()
+begin
+	select *
+	from empleado;
+end //
+delimiter ;
+call E_Columns();
 -- or...
-show COLUMNS
-from mysql2_dia02_ejercicio2.empleado;
+delimiter //
+create procedure E_Columns_Lit()
+begin
+	show COLUMNS
+	from mysql2_dia02_ejercicio2.empleado;
+end //
+delimiter ;
+call E_Columns_Lit();
 
 -- 4. Lista el nombre y los apellidos de todos los empleados.
-select nombre as Nombre, apellido1 as Apellido_1, apellido2 as Apellido_2
-from empleado;
+delimiter //
+create procedure Nom_Ape_E()
+begin
+	select nombre as Nombre, apellido1 as Apellido_1, apellido2 as Apellido_2
+	from empleado;
+end //
+delimiter ;
+call Nom_Ape_E();
 
 -- 5. Lista el identificador de los departamentos de los empleados que aparecen en la tabla empleado.
-select id_departamento as Identificadores
-from empleado
-where id_departamento is not null;
+delimiter //
+create procedure Dep()
+begin
+	select id_departamento as Identificadores
+	from empleado
+	where id_departamento is not null;
+end //
+delimiter ;
+call Dep();
 
 -- 6. Lista el identificador de los departamentos de los empleados que aparecen en la tabla
 -- empleado, eliminando los identificadores que aparecen repetidos.
-select distinct id_departamento as Identificadores
-from empleado
-where id_departamento is not null;
+delimiter //
+create procedure Dep_Dist()
+begin
+	select distinct id_departamento as Identificadores
+	from empleado
+	where id_departamento is not null;
+end //
+delimiter ;
+call Dep_Dist();
 
 -- 7. Lista el nombre y apellidos de los empleados en una única columna.
 delimiter //
@@ -68,8 +111,14 @@ begin
 end//
 delimiter ;
 
-select Nombre_Apellidos(e.nombre,e.apellido1,e.apellido2)
-from empleado e;
+delimiter //
+create procedure Nom_Ape_Concat()
+begin
+	select Nombre_Apellidos(e.nombre,e.apellido1,e.apellido2)
+	from empleado e;
+end //
+delimiter ;
+call Nom_Ape_Concat();
 
 -- 8. Lista el nombre y apellidos de los empleados en una única columna, convirtiendo todos los
 -- caracteres en mayúscula.
@@ -85,8 +134,14 @@ begin
 end//
 delimiter ;
 
-select Nombre_Apellidos_Upper(e.nombre,e.apellido1,e.apellido2)
-from empleado e;
+delimiter //
+create procedure Nom_Ape_Concat_Up()
+begin
+	select Nombre_Apellidos_Upper(e.nombre,e.apellido1,e.apellido2)
+	from empleado e;
+end //
+delimiter ;
+call Nom_Ape_Concat_Up();
 
 -- 9. Lista el nombre y apellidos de los empleados en una única columna, convirtiendo todos los
 -- caracteres en minúscula.
@@ -102,13 +157,19 @@ begin
 end//
 delimiter ;
 
-select Nombre_Apellidos_Lower(e.nombre,e.apellido1,e.apellido2)
-from empleado e;
+delimiter //
+create procedure Nom_Ape_Concat_Lo()
+begin
+	select Nombre_Apellidos_Lower(e.nombre,e.apellido1,e.apellido2)
+	from empleado e;
+end //
+delimiter ;
+call Nom_Ape_Concat_Lo();
 
 -- 10. Lista el identificador de los empleados junto al nif, pero el nif deberá aparecer en dos
 -- columnas, una mostrará únicamente los dígitos del nif y la otra la letra.
 DELIMITER // -- BORRAR TODOS LOS NÚMEROS DEL NIF
-CREATE FUNCTION nif_text(nif varchar(9)) 
+CREATE FUNCTION nif_text(nif varchar(9))
 RETURNS varchar(9) deterministic
 BEGIN
     DECLARE ctrNumber varchar(50);
@@ -134,7 +195,7 @@ BEGIN
 END//
 DELIMITER ;
 DELIMITER // -- BORRAR TODOS LAS LETRAS DEL NIF
-CREATE FUNCTION nif_num(nif varchar(9)) 
+CREATE FUNCTION nif_num(nif varchar(9))
 RETURNS varchar(9) deterministic
 BEGIN
     DECLARE ctrNumber varchar(50);
@@ -160,9 +221,15 @@ BEGIN
 END//
 DELIMITER ;
 
-select id as ID, nif_num(nif) as NIF_Num, nif_text(nif) as NIF_Letter
-from empleado
-order by id;
+delimiter //
+create procedure E_Nif_Col2()
+begin
+	select id as ID, nif_num(nif) as NIF_Num, nif_text(nif) as NIF_Letter
+	from empleado
+	order by id;
+end //
+delimiter ;
+call E_Nif_Col2();
 
 
 -- 11. Lista el nombre de cada departamento y el valor del presupuesto actual del que dispone. Para calcular este dato tendrá
@@ -177,24 +244,48 @@ begin
 end//
 delimiter ;
 
-select nombre as Departamento, presuesto_actual(presupuesto, gastos) as Presupuesto_Actual
-from departamento
-order by presupuesto asc;
+delimiter //
+create procedure Dep_PresupAct()
+begin
+	select nombre as Departamento, presuesto_actual(presupuesto, gastos) as Presupuesto_Actual
+	from departamento
+	order by presupuesto;
+end //
+delimiter ;
+call Dep_PresupAct();
 
 -- 12. Lista el nombre de los departamentos y el valor del presupuesto actual ordenado de forma ascendente.
-select nombre as Departamento, presuesto_actual(presupuesto, gastos) as Presupuesto_Actual
-from departamento
-order by Presupuesto_Actual asc;
+delimiter //
+create procedure Dep_PresupAct_Asc()
+begin
+	select nombre as Departamento, presuesto_actual(presupuesto, gastos) as Presupuesto_Actual
+	from departamento
+	order by presupuesto asc;
+end //
+delimiter ;
+call Dep_PresupAct_Asc();
 
 -- 13. Lista el nombre de todos los departamentos ordenados de forma ascendente.
-select nombre
-from departamento
-order by nombre asc;
+delimiter //
+create procedure Dep_Nom_Asc()
+begin
+	select nombre
+	from departamento
+	order by nombre asc;
+end //
+delimiter ;
+call Dep_Nom_Asc();
 
 -- 14. Lista el nombre de todos los departamentos ordenados de forma descendente.
-select nombre
-from departamento
-order by nombre desc;
+delimiter //
+create procedure Dep_Nom_Desc()
+begin
+	select nombre
+	from departamento
+	order by nombre desc;
+end //
+delimiter ;
+call Dep_Nom_Desc();
 
 -- 15. Lista los apellidos y el nombre de todos los empleados, ordenados de forma alfabética tendiendo en cuenta en primer lugar sus apellidos y luego su nombre.
 delimiter //
@@ -209,33 +300,63 @@ begin
 end//
 delimiter ;
 
-select Apellidos_Nombre(nombre,apellido1,apellido2) as Nombre_Completo
-from empleado
-order by Nombre_Completo asc;
+delimiter //
+create procedure E_Ape_Nom()
+begin
+	select Apellidos_Nombre(nombre,apellido1,apellido2) as Nombre_Completo
+	from empleado
+	order by Nombre_Completo asc;
+end //
+delimiter ;
+call E_Ape_Nom();
 
 -- 16. Devuelve una lista con el nombre y el presupuesto, de los 3 departamentos que tienen mayor presupuesto.
-select nombre as Departamento, presuesto_actual(presupuesto, gastos) as Presupuesto_Actual
-from departamento
-order by Presupuesto_Actual desc
-limit 3;
+delimiter //
+create procedure Dep_PresAct_Top3_Des()
+begin
+	select nombre as Departamento, presuesto_actual(presupuesto, gastos) as Presupuesto_Actual
+	from departamento
+	order by Presupuesto_Actual desc
+	limit 3;
+end //
+delimiter ;
+call Dep_PresAct_Top3_Des();
 
 -- 17. Devuelve una lista con el nombre y el presupuesto, de los 3 departamentos que tienen menor presupuesto.
-select nombre as Departamento, presuesto_actual(presupuesto, gastos) as Presupuesto_Actual
-from departamento
-order by Presupuesto_Actual asc
-limit 3;
+delimiter //
+create procedure Dep_PresAct_Top3_Asc()
+begin
+	select nombre as Departamento, presuesto_actual(presupuesto, gastos) as Presupuesto_Actual
+	from departamento
+	order by Presupuesto_Actual asc
+	limit 3;
+end //
+delimiter ;
+call Dep_PresAct_Top3_Asc();
 
 -- 18. Devuelve una lista con el nombre y el gasto, de los 2 departamentos que tienen mayor gasto.
-select nombre as Departamento, gastos as Gastos
-from departamento
-order by Gastos desc
-limit 3;
+delimiter //
+create procedure Dep_PresAct_Gastos_Top3_Des()
+begin
+	select nombre as Departamento, gastos as Gastos
+	from departamento
+	order by Gastos desc
+	limit 3;
+end //
+delimiter ;
+call Dep_PresAct_Gastos_Top3_Des();
 
 -- 19. Devuelve una lista con el nombre y el gasto, de los 2 departamentos que tienen menor gasto.
-select nombre as Departamento, gastos as Gastos
-from departamento
-order by Gastos asc
-limit 3;
+delimiter //
+create procedure Dep_PresAct_Gastos_Top3_Asc()
+begin
+	select nombre as Departamento, gastos as Gastos
+	from departamento
+	order by Gastos asc
+	limit 3;
+end //
+delimiter ;
+call Dep_PresAct_Gastos_Top3_Asc();
 
 -- 20. Devuelve una lista con 5 filas a partir de la tercera fila de la tabla empleado. La tercera fila se debe incluir en la
 -- respuesta. La respuesta debe incluir todas las columnas de la tabla empleado.
