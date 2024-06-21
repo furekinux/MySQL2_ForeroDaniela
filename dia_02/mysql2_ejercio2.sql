@@ -527,6 +527,7 @@ delimiter ;
 call E_Ape2_Busc2_In('Díaz','Moreno');
 
 -- 35. Lista los nombres, apellidos y nif de los empleados que trabajan en el departamento 3.
+delimiter //
 create procedure E_Info_Dep_Busc(in dep int)
 begin
 	select nombre as Nombre, apellido1 as Apellido_1, apellido2 as Apellido_2, nif as NIF
@@ -572,20 +573,103 @@ delimiter ;
 call E_ApeNom_and_D_Nom();
 
 -- 3. Devuelve un listado con el identificador y el nombre del departamento, solamente de aquellos departamentos que tienen empleados.
+delimiter //
+create procedure E_ApeNom_and_D_NomNotnull()
+begin
+    select d.nombre as Departamento, Apellidos_Nombre(e.nombre,e.apellido1,e.apellido2) as Empleado
+	from empleado e
+	inner join departamento d on e.id_departamento = d.id
+    order by d.nombre;
+end //
+delimiter ;
+call E_ApeNom_and_D_NomNotnull();
 
 -- 4. Devuelve un listado con el identificador, el nombre del departamento y el valor del presupuesto actual del que dispone, solamente de aquellos departamentos que tienen empleados. El valor del presupuesto actual lo puede calcular restando al valor del presupuesto inicial (columna presupuesto) el valor de los gastos que ha generado(columna gastos).
+delimiter //
+create procedure D_NotnullE()
+begin
+    select distinct d.id as IDENTIFICADOR, d.nombre as Departamento, presuesto_actual(d.presupuesto, d.gastos) as Presupuesto_actual
+	from empleado e
+	inner join departamento d on e.id_departamento = d.id
+    where e.id_departamento is not null
+    order by d.id;
+end //
+delimiter ;
+call D_NotnullE();
 
 -- 5. Devuelve el nombre del departamento donde trabaja el empleado que tiene el nif 38382980M.
+delimiter //
+create procedure D_ConNIF_E(in nif varchar(15))
+begin
+    select e.nif as NIF, d.nombre as Departamento
+	from empleado e
+	inner join departamento d on e.id_departamento = d.id
+    where e.nif=nif;
+end //
+delimiter ;
+call D_ConNIF_E('38382980M');
 
 -- 6. Devuelve el nombre del departamento donde trabaja el empleado Pepe Ruiz Santana.
+delimiter //
+create procedure D_ConNom_E(in nombre varchar(255),in ape1 varchar(255),in ape2 varchar(255))
+begin
+    select Nombre_Apellidos(e.nombre,e.apellido1,e.apellido2) as Empleado, d.nombre as Departamento
+	from empleado e
+	inner join departamento d on e.id_departamento = d.id
+    where e.nombre=nombre and e.apellido1=ape1 and e.apellido2=ape2;
+end //
+delimiter ;
+call D_ConNom_E('Pepe', 'Ruiz', 'Santana');
 
 -- 7. Devuelve un listado con los datos de los empleados que trabajan en el departamento de I+D. Ordena el resultado alfabéticamente.
+delimiter //
+create procedure D_ConNom_PorE(in nombre varchar(255))
+begin
+    select e.*
+	from empleado e
+	inner join departamento d on e.id_departamento = d.id
+    where d.nombre=nombre;
+end //
+delimiter ;
+call D_ConNom_PorE('I+D');
 
 -- 8. Devuelve un listado con los datos de los empleados que trabajan en el departamento de Sistemas, Contabilidad o I+D. Ordena el resultado alfabéticamente.
+delimiter //
+create procedure D_ConNom_PorE_3(in a varchar(255),in b varchar(255),in c varchar(255))
+begin
+    select e.*
+	from empleado e
+	inner join departamento d on e.id_departamento = d.id
+    where d.nombre in(a,b,c)
+    order by e.nombre, e.apellido1, e.apellido2 desc;
+end //
+delimiter ;
+call D_ConNom_PorE_3('Sistemas','Contabilidad','I+D');
 
 -- 9. Devuelve una lista con el nombre de los empleados que tienen los departamentos que no tienen un presupuesto entre 100000 y 200000 euros.
+delimiter //
+create procedure E_ConPres_DFueraDe(in a int,in b int)
+begin
+    select d.nombre as Departamento,Nombre_Apellidos(e.nombre,e.apellido1,e.apellido2) as Empleado
+	from empleado e
+	inner join departamento d on e.id_departamento = d.id
+    where presuesto_actual(d.presupuesto, d.gastos) not BETWEEN a AND b
+    order by e.nombre, e.apellido1, e.apellido2 desc;
+end //
+delimiter ;
+call E_ConPres_DFueraDe(100000,200000);
 
 -- 10. Devuelve un listado con el nombre de los departamentos donde existe algún empleado cuyo segundo apellido sea NULL. Tenga en cuenta que no debe mostrar nombres de departamentos que estén repetidos.
+delimiter //
+create procedure D_ConNom_PorE_Ape2Null()
+begin
+    select distinct d.nombre as Departamento
+	from empleado e
+	inner join departamento d on e.id_departamento = d.id
+    where e.apellido2 is null;
+end //
+delimiter ;
+call D_ConNom_PorE_Ape2Null();
 
 -- Insertar información departamento
 INSERT INTO departamento VALUES
