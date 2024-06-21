@@ -362,95 +362,190 @@ call Dep_PresAct_Gastos_Top3_Asc();
 -- respuesta. La respuesta debe incluir todas las columnas de la tabla empleado.
 
 -- 21. Devuelve una lista con el nombre de los departamentos y el presupuesto, de aquellos que tienen un presupuesto mayor o igual a 150000 euros.
-select nombre as Departamento, presuesto_actual(presupuesto, gastos) as Presupuesto_Actual
-from departamento
-where presuesto_actual(presupuesto, gastos) >= 150000;
+delimiter //
+create procedure Dep_PresAct_MayorIgual(in mayor_igual decimal(10,2))
+begin
+	select nombre as Departamento, presuesto_actual(presupuesto, gastos) as Presupuesto_Actual
+	from departamento
+	where presuesto_actual(presupuesto, gastos) >= mayor_igual;
+end //
+delimiter ;
+call Dep_PresAct_MayorIgual(150000);
 
 -- 22. Devuelve una lista con el nombre de los departamentos y el gasto, de aquellos que tienen menos de 5000 euros de gastos.
-select nombre as Departamento, gastos as Gastos
-from departamento
-where gastos < 150000;
+delimiter //
+create procedure Dep_Gast_Menor(in menor decimal(10,2))
+begin
+	select nombre as Departamento, gastos as Gastos
+	from departamento
+	where gastos < menor;
+end //
+delimiter ;
+call Dep_Gast_Menor(5000);
 
 -- 23. Devuelve una lista con el nombre de los departamentos y el presupuesto, de aquellos que tienen un presupuesto entre
 -- 100000 y 200000 euros. Sin utilizar el operador BETWEEN.
-select nombre as Departamento, presuesto_actual(presupuesto, gastos) as Presupuesto_Actual
-from departamento
-where presuesto_actual(presupuesto, gastos) < 200000 and presuesto_actual(presupuesto, gastos) > 100000;
+delimiter //
+create procedure Dep_Pres_betwnobetw(in less_than decimal(10,2),in higher_than decimal(10,2))
+begin
+	select nombre as Departamento, presuesto_actual(presupuesto, gastos) as Presupuesto_Actual
+	from departamento
+	where presuesto_actual(presupuesto, gastos) < less_than and presuesto_actual(presupuesto, gastos) > higher_than;
+end //
+delimiter ;
+call Dep_Pres_betwnobetw(200000,100000);
 
 -- 24. Devuelve una lista con el nombre de los departamentos que no tienen un presupuesto entre 100000 y 200000 euros. Sin
 -- utilizar el operador BETWEEN.
-select nombre as Departamento
-from departamento
-where presuesto_actual(presupuesto, gastos) > 200000 or presuesto_actual(presupuesto, gastos) < 100000;
+delimiter //
+create procedure Dep_Pres_betwnobetw_diff(in less_than decimal(10,2),in higher_than decimal(10,2))
+begin
+	select nombre as Departamento
+	from departamento
+	where presuesto_actual(presupuesto, gastos) > higher_than
+	union
+	select nombre as Departamento
+	from departamento
+	where presuesto_actual(presupuesto, gastos) < less_than;
+end //
+delimiter ;
+call Dep_Pres_betwnobetw_diff(100000,200000);
 
 -- 25. Devuelve una lista con el nombre de los departamentos que tienen un presupuesto entre 100000 y 200000 euros. Utilizando
 -- el operador BETWEEN.
-select nombre as Departamento
-from departamento
-where presuesto_actual(presupuesto, gastos) BETWEEN 100000 AND 200000;
+delimiter //
+create procedure Dep_Pres_between(in a int,in b int)
+begin
+	select nombre as Departamento
+	from departamento d
+	where presuesto_actual(d.presupuesto, d.gastos) BETWEEN a AND b;
+end //
+delimiter ;
+call Dep_Pres_between(100000,200000);
 
 -- 26. Devuelve una lista con el nombre de los departamentos que no tienen un presupuesto entre 100000 y 200000 euros. Utilizando
 -- el operador BETWEEN.
-select nombre as Departamento
-from departamento
-where presuesto_actual(presupuesto, gastos) not BETWEEN 100000 AND 200000;
+delimiter //
+create procedure Dep_Pres_between_diff(in a int,in b int)
+begin
+	select nombre as Departamento
+	from departamento d
+	where presuesto_actual(d.presupuesto, d.gastos) not BETWEEN a AND b;
+end //
+delimiter ;
+call Dep_Pres_between_diff(100000,200000);
 
 -- 27. Devuelve una lista con el nombre de los departamentos, gastos y presupuesto, de aquellos departamentos donde los gastos
 -- sean mayores que el presupuesto del que disponen.
-select nombre as Departamento, gastos as Gastos, presuesto_actual(presupuesto, gastos) as Presupuesto_Actual
-from departamento
-where presuesto_actual(presupuesto, gastos)<gastos;
+delimiter //
+create procedure Dep_Gast_Mayorque_Pres()
+begin
+	select nombre as Departamento, gastos as Gastos, presuesto_actual(presupuesto, gastos) as Presupuesto_Actual
+	from departamento
+	where presuesto_actual(presupuesto, gastos)<gastos;
+end //
+delimiter ;
+call Dep_Gast_Mayorque_Pres();
 
 -- 28. Devuelve una lista con el nombre de los departamentos, gastos y presupuesto, de aquellos departamentos donde los gastos
 -- sean menores que el presupuesto del que disponen.
-select nombre as Departamento, gastos as Gastos, presuesto_actual(presupuesto, gastos) as Presupuesto_Actual
-from departamento
-where presuesto_actual(presupuesto, gastos)>gastos;
+delimiter //
+create procedure Dep_Gast_minque_Pres()
+begin
+	select nombre as Departamento, gastos as Gastos, presuesto_actual(presupuesto, gastos) as Presupuesto_Actual
+	from departamento
+	where presuesto_actual(presupuesto, gastos)>gastos;
+end //
+delimiter ;
+call Dep_Gast_minque_Pres();
 
 -- 29. Devuelve una lista con el nombre de los departamentos, gastos y presupuesto, de aquellos departamentos donde los gastos
 -- sean iguales al presupuesto del que disponen.
-select nombre as Departamento, gastos as Gastos, presuesto_actual(presupuesto, gastos) as Presupuesto_Actual
-from departamento
-where presuesto_actual(presupuesto, gastos)=gastos;
+delimiter //
+create procedure Dep_Gast_igual_Pres()
+begin
+	select nombre as Departamento, gastos as Gastos, presuesto_actual(presupuesto, gastos) as Presupuesto_Actual
+	from departamento
+	where presuesto_actual(presupuesto, gastos)=gastos;
+end //
+delimiter ;
+call Dep_Gast_igual_Pres();
 
 -- 30. Lista todos los datos de los empleados cuyo segundo apellido sea NULL.
-select *
-from empleado
-where apellido2 is null;
+delimiter //
+create procedure E_Ape_Null()
+begin
+	select *
+	from empleado
+	where apellido2 is null;
+end //
+delimiter ;
+call E_Ape_Null();
 
 -- 31. Lista todos los datos de los empleados cuyo segundo apellido no sea NULL.
-select *
-from empleado
-where apellido2 is not null;
+delimiter //
+create procedure E_Ape_NotNull()
+begin
+	select *
+	from empleado
+	where apellido2 is not null;
+end //
+delimiter ;
+call E_Ape_NotNull();
 
 -- 32. Lista todos los datos de los empleados cuyo segundo apellido sea López.
-select *
-from empleado
-where apellido2='López';
+delimiter //
+create procedure E_Ape2_Busc(in ape2 varchar(255))
+begin
+	select *
+	from empleado
+	where apellido2=ape2;
+end //
+delimiter ;
+call E_Ape2_Busc('López');
 
 -- 33. Lista todos los datos de los empleados cuyo segundo apellido sea Díaz o Moreno. Sin utilizar el operador IN.
-select *
-from empleado
-where apellido2='Díaz' or apellido2='Moreno';
+delimiter //
+create procedure E_Ape2_Busc2(in ape2_1 varchar(255),in ape2_2 varchar(255))
+begin
+	select *
+	from empleado
+	where apellido2=ape2_1 or apellido2=ape2_2;
+end //
+delimiter ;
+call E_Ape2_Busc2('Díaz','Moreno');
 
 -- 34. Lista todos los datos de los empleados cuyo segundo apellido sea Díaz o Moreno. Utilizando el operador IN.
-select *
-from empleado
-where apellido2 in ('Díaz','Moreno');
+delimiter //
+create procedure E_Ape2_Busc2_In(in ape2_1 varchar(255),in ape2_2 varchar(255))
+begin
+	select *
+	from empleado
+	where apellido2 in (ape2_1,ape2_2);
+end //
+delimiter ;
+call E_Ape2_Busc2_In('Díaz','Moreno');
 
 -- 35. Lista los nombres, apellidos y nif de los empleados que trabajan en el departamento 3.
-select nombre, apellido1, apellido2, nif
-from empleado
-where id_departamento = 3;
+create procedure E_Info_Dep_Busc(in dep int)
+begin
+	select nombre as Nombre, apellido1 as Apellido_1, apellido2 as Apellido_2, nif as NIF
+	from empleado
+	where id_departamento = dep;
+end //
+delimiter ;
+call E_Info_Dep_Busc(3);
 
 -- 36. Lista los nombres, apellidos y nif de los empleados que trabajan en los departamentos 2, 4 o 5.
-select nombre, apellido1, apellido2, nif
-from empleado
-where id_departamento = 2 or 4 or 5;
-
-select nombre, apellido1, apellido2, nif
-from empleado
-where id_departamento in (2,4,5);
+delimiter //
+create procedure E_Info_Dep_Busc3(in a int,in b int,in c int)
+begin
+	select nombre, apellido1, apellido2, nif
+	from empleado
+	where id_departamento in (a,b,c);
+end //
+delimiter ;
+call E_Info_Dep_Busc3(2,4,5);
 
 -- Insertar información departamento
 INSERT INTO departamento VALUES(1, 'Desarrollo', 120000, 6000);
