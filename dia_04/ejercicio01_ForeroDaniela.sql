@@ -26,14 +26,14 @@ create table cliente(
 );
 
 create table vehiculo(
-    id int primary key auto_increment not null,
+	id int primary key auto_increment not null,
     tipo enum("Sedán", "Compacto", "Camioneta Platón", "Camioneta lujo", "Deportivo") not null,
     placha varchar(7) not null,
     referencia varchar(100) not null,
     modelo YEAR not null,
     puertas tinyint(1) not null,
     capacidad varchar(50) not null,
-    sunroof tinyint(1) not null,
+    sunroof enum("Tiene","No tiene"),
     motor varchar(50) not null,
     color varchar(25) not null
 );
