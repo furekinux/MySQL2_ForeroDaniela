@@ -22,8 +22,9 @@ La información será organizada por medio de 5 tablas principales:
 
 ## Usuarios
 El acceso a la información será posible por medio de los siguientes tipos de usuarios:
-
-### Administrador
+```diff
+### - Administrador -
+```
 Este tipo de usuario posee los siguientes privilegios en el sistema de información:
 
 Creación/Ingreso de nueva fila de información a cualquiera de las tablas antes mencionadas, todo esto por medio del proceso: (Work in process...)
