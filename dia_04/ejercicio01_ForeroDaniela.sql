@@ -83,6 +83,19 @@ inner join sucursal s on s.id = a.id_sucursal_salida
 inner join sucursal s2 on s2.id = a.id_sucursal_llegada
 order by id_vehiculo;
 
+create user 'empleado'@'%' identified by 'employee';
+select * from mysql.user where Host='%';
+grant select on mysql2_d04.alquiler to 'empleado'@'%';
+flush privileges; -- Refrescar permisos de datos!!!
+
+grant select (id,nombres,apellidos) on mysql2_d04.empleado to 'empleado'@'%';
+show grants for 'empleado'@'%';
+grant select (id,nombres,apellidos) on mysql2_d04.cliente to 'empleado'@'%';
+
+-- Revisión de las inserciones
+select id_sucursal
+from empleado a
+order by id_sucursal;
 -- Inserciones sucursal
 INSERT INTO sucursal (ciudad, direccion, telefono, celular, email) VALUES
 ('Bogotá', 'Calle 123 # 456-789', '1101234567', '3112345678', 'autorental.bogota@gmail.com'),
