@@ -23,7 +23,7 @@ La información será organizada por medio de 5 tablas principales:
 ## Usuarios
 El acceso a la información será posible por medio de los siguientes tipos de usuarios:
 
-### $${\color{red}Administrador}$$
+### ${\color{red}Administrador}$
 Este tipo de usuario posee los siguientes privilegios en el sistema de información:
 
 Creación/Ingreso de nueva fila de información a cualquiera de las tablas antes mencionadas, todo esto por medio del proceso: (Work in process...)
@@ -31,3 +31,14 @@ Creación/Ingreso de nueva fila de información a cualquiera de las tablas antes
 
 Revisión/Lectura de la información contenida por cada tabla de la base de datos, para consultar puntos específicos se cuenta con los procesos: (work in process)
 * Para revisar una única tabla por medio del proceso (work in process) se hará uso de la siguiente sintáxis: (work in process).
+
+Actualización/Modificación de la información de cada tabla de la nase de datos, para realizar el proceso de actualización se cuenta con los siguientes procesos: (...)
+* 
+
+Descarte/Eliminación de informacion de la base de las tablas contenidas en la base de datos, para realizar este proceso se hará uso de los procesos: (...)
+* 
+
+### ${\color{lightblue}Empleado}$ 
+Este tipo de usuario posee las siguientes capacidades de acceso al sistema de información:
+
+Revisión/Lectura de la información de los alquilieres realizados.
