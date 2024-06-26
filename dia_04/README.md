@@ -1,4 +1,4 @@
-# AUTORENTAL
+# ${\color{red}Auto \space \color{Goldenrod}Rental}$ :red_car:
 
 Proyecto de creación de una base de datos para el manejo de información de una empresa de renta de vehículos. Esta base de datos cuenta con la información para la administración general de clientes, vehículos, empleados, sucursales y registro de alquileres realizados.
 
