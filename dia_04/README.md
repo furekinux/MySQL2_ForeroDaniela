@@ -38,7 +38,15 @@ Actualización/Modificación de la información de cada tabla de la nase de dato
 Descarte/Eliminación de informacion de la base de las tablas contenidas en la base de datos, para realizar este proceso se hará uso de los procesos: (...)
 * 
 
-### ${\color{lightblue}Empleado}$ 
+### ${\color{RubineRed}Empleado}$ 
 Este tipo de usuario posee las siguientes capacidades de acceso al sistema de información:
 
-Revisión/Lectura de la información de los alquilieres realizados.
+Revisión/Lectura de la información del historial de alquilieres realizados.
+
+Revisión/Lectura de la información de los vehículos disponibles para alquiler de acuerdo al tipo.
+
+Revisión/Lectura de la información de el rango de precios de alquiler de acuerdo al tipo de vehículo para alquiler.
+
+Revisión/Lectura de la información de las fechas de disponibilidad de un vehículo específico.
+
+Creación/Ingreso de nuevos clientes y/o información de alquileres que se realice.
