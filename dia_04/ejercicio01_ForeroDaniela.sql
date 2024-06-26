@@ -73,24 +73,39 @@ create table alquiler(
     valor_pagado decimal(10,2)
 );
 
--- Consulta para historial
-select distinct id_vehiculo as ID_Vehiculo, concat(c.nombres," ",c.apellidos) as Cliente, concat(e.nombres," ",e.apellidos) as Empleado,
-s.ciudad as Salida_de, fecha_salida as Salida, s2.ciudad as Llega_a, fecha_llegada as Llegada, fecha_esperada_llegada as Fecha_esperada
-from alquiler a
-inner join empleado e on e.id = a.id_empleado
-inner join cliente c on c.id = a.id_cliente
-inner join sucursal s on s.id = a.id_sucursal_salida
-inner join sucursal s2 on s2.id = a.id_sucursal_llegada
-order by id_vehiculo;
+-- ######## Procedimientos ########
 
+-- Ver listado de alquiler
+delimiter //
+create procedure listado_alquiler()
+begin
+	-- Consulta para historial
+	select distinct id_vehiculo as ID_Vehiculo, concat(c.nombres," ",c.apellidos) as Cliente, concat(e.nombres," ",e.apellidos) as Empleado,
+	s.ciudad as Salida_de, fecha_salida as Salida, s2.ciudad as Llega_a, fecha_llegada as Llegada, fecha_esperada_llegada as Fecha_esperada
+	from alquiler a
+	inner join empleado e on e.id = a.id_empleado
+	inner join cliente c on c.id = a.id_cliente
+	inner join sucursal s on s.id = a.id_sucursal_salida
+	inner join sucursal s2 on s2.id = a.id_sucursal_llegada
+	order by id_vehiculo;
+end //
+delimiter ;
+
+call listado_alquiler();
+
+
+-- EMPLEADO - PERMISOS
 create user 'empleado'@'%' identified by 'employee';
-select * from mysql.user where Host='%';
-grant select on mysql2_d04.alquiler to 'empleado'@'%';
-flush privileges; -- Refrescar permisos de datos!!!
 
+grant select on mysql2_d04.alquiler to 'empleado'@'%';
 grant select (id,nombres,apellidos) on mysql2_d04.empleado to 'empleado'@'%';
-show grants for 'empleado'@'%';
 grant select (id,nombres,apellidos) on mysql2_d04.cliente to 'empleado'@'%';
+grant EXECUTE ON PROCEDURE listado_alquiler to 'empleado'@'%';
+
+-- Revisiones
+select * from mysql.user where Host='%';
+show grants for 'empleado'@'%';
+flush privileges; -- Refrescar
 
 -- Revisión de las inserciones
 select id_sucursal
