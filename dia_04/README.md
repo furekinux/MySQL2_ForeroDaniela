@@ -41,6 +41,13 @@ Descarte/Eliminación de informacion de la base de las tablas contenidas en la b
 ### ${\color{RubineRed}Empleado}$ 
 Este tipo de usuario posee las siguientes capacidades de acceso al sistema de información:
 
+Revisión/Lectura de la información del inventario de vehículos totales.
+* Se utiliza el procedimiento listado_vehiculos() de la siguiente manera:
+```sql
+-- Devuelve el listado con la información de cada uno de los vehiculos de la empresa
+call listado_vehiculos();
+```
+
 Revisión/Lectura de la información del historial de alquilieres realizados.
 * Se utiliza el procedimiento listado_alquiler() de la siguiente manera:
 ```sql
