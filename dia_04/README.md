@@ -49,7 +49,7 @@ call listado_alquiler();
 ```
 
 Revisión/Lectura de la información de los vehículos disponibles para alquiler de acuerdo al tipo.
-* Se utiliza el procedimiento call listado_vehiculos_disponibles(tipo) de la siguiente manera:
+* Se utiliza el procedimiento listado_vehiculos_disponibles(tipo) de la siguiente manera:
 ```sql
 -- Devuelve el listado de los vehìculos disponibles y que son del tipo especificado entre paréntesis
 call listado_vehiculos_disponibles("Sedán");
@@ -58,5 +58,15 @@ call listado_vehiculos_disponibles("Sedán");
 Revisión/Lectura de la información de el rango de precios de alquiler de acuerdo al tipo de vehículo para alquiler.
 
 Revisión/Lectura de la información de las fechas de disponibilidad de un vehículo específico.
+* Se utliza el procedimiento disponible_fecha(id_vehiculo) de la siguiente manera:
+```sql
+-- Devuelve el listado con la información de fechas de los autos alquilados
+call disponible_fecha(8);
+```
 
 Creación/Ingreso de nuevos clientes y/o información de alquileres que se realice.
+* Se utiliza el procedimiento nuevo_cliente(cedula,nombres,apellidos,direccion,ciudad,celular,email) de la siguiente manera:
+```sql
+-- Registra nuevos clientes en la base de datos
+call nuevo_cliente("1299978900","Daniela","Forero Ballén","???","Somewhere","123456","test@gmail.com");
+```
