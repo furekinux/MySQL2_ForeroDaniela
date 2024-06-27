@@ -96,7 +96,7 @@ call listado_alquiler();
 delimiter //
 create procedure listado_vehiculos_disponibles(in tipoV varchar(255))
 begin
--- Consulta para disponibilidad de vehiculos de acuerdo al tipo
+	-- Consulta para disponibilidad de vehiculos de acuerdo al tipo
 	select distinct v.*
 	from vehiculo v
 	left join alquiler a on v.id = a.id_vehiculo
@@ -139,6 +139,19 @@ end //
 delimiter ;
 call nuevo_cliente("1299978900","pan de queso","jiji","narnia","perukistan","666","AAA@gmail.com");
 
+
+delimiter //
+create procedure listado_vehiculos()
+begin
+	select id as Identificador, tipo as Tipo, placa as Placa, referencia as Referencia,
+    modelo as Modelo, puertas as Nº_Puertas, capacidad as Capacidad, sunroof as Sunroof,
+    motor as Motor, color as Color
+    from vehiculo;
+end //
+delimiter ;
+call listado_vehiculos();
+
+
 -- EMPLEADO - PERMISOS
 create user 'empleado'@'%' identified by 'employee';
 grant select on mysql2_d04.alquiler to 'empleado'@'%';
@@ -146,6 +159,7 @@ grant EXECUTE ON PROCEDURE listado_alquiler to 'empleado'@'%';
 grant EXECUTE ON PROCEDURE listado_vehiculos_disponibles to 'empleado'@'%';
 grant EXECUTE ON PROCEDURE disponible_fecha to 'empleado'@'%';
 grant EXECUTE ON PROCEDURE nuevo_cliente to 'empleado'@'%';
+grant EXECUTE ON PROCEDURE listado_vehiculos to 'empleado'@'%';
 
 -- Revisiones
 select * from mysql.user where Host='%';
