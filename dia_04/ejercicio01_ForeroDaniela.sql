@@ -93,6 +93,18 @@ delimiter ;
 
 call listado_alquiler();
 
+delimiter //
+create procedure listado_vehiculos_disponibles()
+begin
+-- Consulta para disponibilidad de vehiculos sin un solo alquilers
+select distinct v.*
+from vehiculo v
+left join alquiler a on v.id = a.id_vehiculo
+where a.id_vehiculo is null;
+end //
+delimiter ;
+
+call listado_vehiculos_disponibles();
 
 -- EMPLEADO - PERMISOS
 create user 'empleado'@'%' identified by 'employee';
@@ -111,6 +123,7 @@ flush privileges; -- Refrescar
 select id_sucursal
 from empleado a
 order by id_sucursal;
+
 -- Inserciones sucursal
 INSERT INTO sucursal (ciudad, direccion, telefono, celular, email) VALUES
 ('Bogotá', 'Calle 123 # 456-789', '1101234567', '3112345678', 'autorental.bogota@gmail.com'),
