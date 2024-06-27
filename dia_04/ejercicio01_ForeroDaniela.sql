@@ -97,19 +97,33 @@ delimiter //
 create procedure listado_vehiculos_disponibles(in tipoV varchar(255))
 begin
 -- Consulta para disponibilidad de vehiculos de acuerdo al tipo
-select distinct v.*
-from vehiculo v
-left join alquiler a on v.id = a.id_vehiculo
-where a.id_vehiculo is null and v.tipo=tipoV
-union
-select distinct v.*
-from vehiculo v
-left join alquiler a on v.id = a.id_vehiculo
-where DATE_FORMAT(a.fecha_llegada, "%Y %M %d") > CAST(CURRENT_TIMESTAMP AS DATE) and v.tipo=tipoV
-order by id;
+	select distinct v.*
+	from vehiculo v
+	left join alquiler a on v.id = a.id_vehiculo
+	where a.id_vehiculo is null and v.tipo=tipoV
+	union
+	select distinct v.*
+	from vehiculo v
+	left join alquiler a on v.id = a.id_vehiculo
+	where DATE_FORMAT(a.fecha_llegada, "%Y %M %d") > CAST(CURRENT_TIMESTAMP AS DATE) and v.tipo=tipoV
+	order by id;
 end //
 delimiter ;
 call listado_vehiculos_disponibles("Sedán");
+
+
+delimiter //
+create procedure disponible_fecha(in idvehiculo int)
+begin
+	-- Información de disponibiliad según id
+	select distinct a.id, a.id_vehiculo, v.tipo, v.placa, v.referencia, a.fecha_salida,a.fecha_esperada_llegada
+	from vehiculo v
+	left join alquiler a on v.id = a.id_vehiculo
+	where a.id_vehiculo=idvehiculo
+	order by id;
+end //
+delimiter ;
+call disponible_fecha(8);
 
 
 -- EMPLEADO - PERMISOS
