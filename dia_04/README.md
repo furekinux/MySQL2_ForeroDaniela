@@ -47,7 +47,13 @@ Revisión/Lectura de la información del historial de alquilieres realizados.
 -- Devuelve el listado con la información de cada uno de los alquileres realizados por los clientes
 call listado_alquiler();
 ```
+
 Revisión/Lectura de la información de los vehículos disponibles para alquiler de acuerdo al tipo.
+* Se utiliza el procedimiento call listado_vehiculos_disponibles(tipo) de la siguiente manera:
+```sql
+-- Devuelve el listado de los vehìculos disponibles y que son del tipo especificado entre paréntesis
+call listado_vehiculos_disponibles("Sedán");
+```
 
 Revisión/Lectura de la información de el rango de precios de alquiler de acuerdo al tipo de vehículo para alquiler.
 
