@@ -144,6 +144,8 @@ create user 'empleado'@'%' identified by 'employee';
 grant select on mysql2_d04.alquiler to 'empleado'@'%';
 grant EXECUTE ON PROCEDURE listado_alquiler to 'empleado'@'%';
 grant EXECUTE ON PROCEDURE listado_vehiculos_disponibles to 'empleado'@'%';
+grant EXECUTE ON PROCEDURE disponible_fecha to 'empleado'@'%';
+grant EXECUTE ON PROCEDURE nuevo_cliente to 'empleado'@'%';
 
 -- Revisiones
 select * from mysql.user where Host='%';
