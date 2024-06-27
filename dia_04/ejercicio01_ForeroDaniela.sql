@@ -90,29 +90,33 @@ begin
 	order by id_vehiculo;
 end //
 delimiter ;
-
 call listado_alquiler();
 
+
 delimiter //
-create procedure listado_vehiculos_disponibles()
+create procedure listado_vehiculos_disponibles(in tipoV varchar(255))
 begin
--- Consulta para disponibilidad de vehiculos sin un solo alquilers
+-- Consulta para disponibilidad de vehiculos de acuerdo al tipo
 select distinct v.*
 from vehiculo v
 left join alquiler a on v.id = a.id_vehiculo
-where a.id_vehiculo is null;
+where a.id_vehiculo is null and v.tipo=tipoV
+union
+select distinct v.*
+from vehiculo v
+left join alquiler a on v.id = a.id_vehiculo
+where DATE_FORMAT(a.fecha_llegada, "%Y %M %d") > CAST(CURRENT_TIMESTAMP AS DATE) and v.tipo=tipoV
+order by id;
 end //
 delimiter ;
+call listado_vehiculos_disponibles("Sedán");
 
-call listado_vehiculos_disponibles();
 
 -- EMPLEADO - PERMISOS
 create user 'empleado'@'%' identified by 'employee';
-
 grant select on mysql2_d04.alquiler to 'empleado'@'%';
-grant select (id,nombres,apellidos) on mysql2_d04.empleado to 'empleado'@'%';
-grant select (id,nombres,apellidos) on mysql2_d04.cliente to 'empleado'@'%';
 grant EXECUTE ON PROCEDURE listado_alquiler to 'empleado'@'%';
+grant EXECUTE ON PROCEDURE listado_vehiculos_disponibles to 'empleado'@'%';
 
 -- Revisiones
 select * from mysql.user where Host='%';
