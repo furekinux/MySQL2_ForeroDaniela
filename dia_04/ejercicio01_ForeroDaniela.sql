@@ -126,6 +126,19 @@ delimiter ;
 call disponible_fecha(8);
 
 
+delimiter //
+create procedure nuevo_cliente(in ce varchar(10),in nom varchar(100),
+in apel varchar(100),in direc varchar(100),in ciu varchar(100),in cel varchar(15),in ema varchar(200))
+begin
+	declare newid int;
+	insert into cliente(cedula,nombres,apellidos,direccion,ciudad,celular,email)
+	values (ce,nom, apel,direc,ciu,cel,ema);
+	select * from cliente
+	where cedula = ce;
+end //
+delimiter ;
+call nuevo_cliente("1299978900","pan de queso","jiji","narnia","perukistan","666","AAA@gmail.com");
+
 -- EMPLEADO - PERMISOS
 create user 'empleado'@'%' identified by 'employee';
 grant select on mysql2_d04.alquiler to 'empleado'@'%';
