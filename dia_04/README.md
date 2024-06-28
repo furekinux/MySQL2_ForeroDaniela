@@ -1,6 +1,7 @@
 # ${\color{red}Auto \space \color{Goldenrod}Rental}$ :red_car:
 
 Proyecto de creación de una base de datos para el manejo de información de una empresa de renta de vehículos. Esta base de datos cuenta con la información para la administración general de clientes, vehículos, empleados, sucursales y registro de alquileres realizados.
+Para más información sobre este proyecto, ver el siguiente archivo con la documentación completa: https://docs.google.com/document/d/1htUUvraLGrt23NB1Fpz0w6APDTOalKDkcEM7qpa05Xc/edit?usp=sharing
 
 ## Tablas
 La información será organizada por medio de 5 tablas principales:
